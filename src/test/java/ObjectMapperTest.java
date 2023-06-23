@@ -8,7 +8,8 @@ public class ObjectMapperTest {
     @Test
     public void testCreateBasket1Request() {
         TicketTypeRequest request1 = new TicketTypeRequest(TicketTypeRequest.Type.ADULT, 3);
-        Basket basket = ObjectMapper.createBasket(request1);
+        ObjectMapper objectMapper = new ObjectMapper();
+        Basket basket = objectMapper.createBasket(request1);
 
         Assert.assertEquals(basket.getTicketsAdult(), 3);
     }
@@ -18,7 +19,8 @@ public class ObjectMapperTest {
         TicketTypeRequest request1 = new TicketTypeRequest(TicketTypeRequest.Type.ADULT, 3);
         TicketTypeRequest request2 = new TicketTypeRequest(TicketTypeRequest.Type.CHILD, 5);
         TicketTypeRequest request3 = new TicketTypeRequest(TicketTypeRequest.Type.INFANT, 2);
-        Basket basket = ObjectMapper.createBasket(request1, request2, request3);
+        ObjectMapper objectMapper = new ObjectMapper();
+        Basket basket = objectMapper.createBasket(request1, request2, request3);
 
         Assert.assertEquals(basket.getTicketsAdult(), 3);
         Assert.assertEquals(basket.getTicketsChild(), 5);

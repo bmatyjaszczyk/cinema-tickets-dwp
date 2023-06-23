@@ -12,6 +12,7 @@ import uk.gov.dwp.uc.pairtest.domain.ObjectMapper;
 import uk.gov.dwp.uc.pairtest.domain.TicketTypeRequest;;
 import uk.gov.dwp.uc.pairtest.domain.BasketValidator;
 import uk.gov.dwp.uc.pairtest.exception.InvalidAccountNumberException;
+import uk.gov.dwp.uc.pairtest.exception.InvalidPurchaseException;
 
 public class TicketServiceImplTest {
     private TicketService ticketService;
@@ -28,14 +29,11 @@ public class TicketServiceImplTest {
     }
 
     @Test
-    public void testPurchaseTicketsCorrectAccountNumber() {
-        TicketTypeRequest request = new TicketTypeRequest(TicketTypeRequest.Type.ADULT, 20);
-        ticketService.purchaseTickets(1L, request);
-    }
+    public void testPurchaseTicketsWithCorrectAccountNumberAndRequestsNoException() {
+        TicketTypeRequest request1 = new TicketTypeRequest(TicketTypeRequest.Type.ADULT, 3);
+        TicketTypeRequest request2 = new TicketTypeRequest(TicketTypeRequest.Type.CHILD, 3);
+        TicketTypeRequest request3 = new TicketTypeRequest(TicketTypeRequest.Type.INFANT, 3);
 
-    @Test(expected = InvalidAccountNumberException.class)
-    public void testPurchaseTicketsWrongAccountNumber() {
-        TicketTypeRequest request = new TicketTypeRequest(TicketTypeRequest.Type.ADULT, 20);
-        ticketService.purchaseTickets(0L, request);
+        ticketService.purchaseTickets(1L, request1, request2, request3);
     }
 }

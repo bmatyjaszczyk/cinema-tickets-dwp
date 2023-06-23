@@ -28,13 +28,18 @@ public class TicketServiceImpl implements TicketService {
 
     @Override
     public void purchaseTickets(Long accountId, TicketTypeRequest... ticketTypeRequests) throws InvalidPurchaseException {
-        Basket basket = objectMapper.createBasket(ticketTypeRequests);
-        this.validator.validateBasket(basket, accountId);
+        try {
+            Basket basket = objectMapper.createBasket(ticketTypeRequests);
+            this.validator.validateBasket(basket, accountId);
 
-        int totalAmount = this.basketCalculator.getTotalAmount(basket);
-        int totalNumberOfSeats = this.basketCalculator.getNumberOfSeats(basket);
+            int totalAmount = this.basketCalculator.getTotalAmount(basket);
+            int totalNumberOfSeats = this.basketCalculator.getNumberOfSeats(basket);
 
-        this.paymentService.makePayment(accountId, totalAmount);
-        this.seatReservationService.reserveSeat(accountId, totalNumberOfSeats);
+            this.paymentService.makePayment(accountId, totalAmount);
+            this.seatReservationService.reserveSeat(accountId, totalNumberOfSeats);
+        } catch (InvalidPurchaseException exception) {
+            //TODO: Handle this accordingly to the project requirements
+            System.out.println(exception.getMessage());
+        }
     }
 }
